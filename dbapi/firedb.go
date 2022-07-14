@@ -57,7 +57,7 @@ func (*collection) AddPost(post *models.Post) (*models.Post, error) {
 	})
 	//Error handler
 	if err != nil {
-		log.Fatal("Failed adding a new post: %v", err)
+		log.Fatalf("Failed adding a new post: %v", err)
 		return nil, err
 	}
 	//Return the post and error nil
@@ -82,7 +82,7 @@ func (*collection) GetAll() ([]models.Post, error) {
 			break
 		}
 		if err != nil {
-			log.Fatal("Failed to return the list of posts: %v", err)
+			log.Fatalf("Failed to return the list of posts: %v", err)
 			return nil, err
 		}
 		//Map the value to post struct

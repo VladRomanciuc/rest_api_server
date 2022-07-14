@@ -17,7 +17,7 @@ func TestValidateEmptyPost(t *testing.T){
 }
 
 func TestValidateEmptyTitle(t *testing.T){
-	post := models.Post{Id: 1, Title: "", Text: "some"}
+	post := models.Post{Id: "1", Title: "", Text: "some"}
 	
 	testService := NewPostService(nil)
 
