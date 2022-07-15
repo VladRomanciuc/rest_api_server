@@ -115,36 +115,36 @@ func (*sqlite) GetAll() ([]models.Post, error) {
 	return posts, nil
 }
 
-func (*sqlite) DeleteById(id string) (*models.Post, error) {
+func (*sqlite) DeleteById(id string) (error) {
 	//Acces the DB and handling error
 	db, err := sql.Open("sqlite3", "./posts.db")
 	if err != nil {
 		log.Fatal(err)
-		return nil, err
+		return err
 	}
 	//Access the db cli and handle the error
 	prep, err := db.Begin()
 	if err != nil {
 		log.Fatal(err)
-		return nil, err
+		return err
 	}
 	//Prepare the statement to delete the post, handling the error
 	delete, err := prep.Prepare("delete from posts where id =?")
 	if err != nil {
 		log.Fatal(err)
-		return nil, err
+		return err
 	}
 	//Close connection after operation
-	defer delete.Close()
+	//defer delete.Close()
 	//Execute the statement and handle the error
 	_, err = delete.Exec(id)
 	if err != nil {
 		log.Fatal(err)
-		return nil, err
+		return err
 	}
 	//Commit changes
 	prep.Commit()
-	return nil, nil
+	return nil
 }
 
 

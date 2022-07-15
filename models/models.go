@@ -8,7 +8,7 @@ type DbOps interface {
 	AddPost(post *Post) (*Post, error)
 	GetAll() ([]Post, error)
 	GetById(id string) (*Post, error)
-	DeleteById(id string) (*Post, error)
+	DeleteById(id string) (error)
 }
 //PostService actions
 type PostService interface{
@@ -16,7 +16,7 @@ type PostService interface{
 	AddPost(post *Post) (*Post, error)
 	GetAll() ([]Post, error)
 	GetById(id string) (*Post, error)
-	DeleteById(id string) (*Post, error)
+	DeleteById(id string) (error)
 }
 //Controller handler
 type PostController interface{

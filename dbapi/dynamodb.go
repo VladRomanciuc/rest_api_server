@@ -137,13 +137,14 @@ func (table *dynamoDBTable) GetById(id string) (*models.Post, error) {
 	//Unmarshal the result to post struct and handle the error
 	err = attributevalue.UnmarshalMap(result.Item, &post)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
+		return nil, err
 	}
 	//return the post and nil error
 	return &post, nil
 }
 //Function to delete the post
-func (table *dynamoDBTable) DeleteById(id string) (*models.Post, error) {
+func (table *dynamoDBTable) DeleteById(id string) (error) {
 	//Get the context
 	c := context.Background()
 	// Get a new DynamoDB client
@@ -157,8 +158,9 @@ func (table *dynamoDBTable) DeleteById(id string) (*models.Post, error) {
 	})
 	//Error handler
 	if err != nil {
-		return nil, err
+		log.Fatal(err)
+		return err
 	}
-	//Return nil for both values
-	return nil, nil
+	//Return nil
+	return nil
 }

@@ -11,17 +11,20 @@ import (
 	"github.com/VladRomanciuc/Go-classes/api/models"
 	"github.com/VladRomanciuc/Go-classes/api/service"
 	"github.com/VladRomanciuc/Go-classes/api/dbapi"
+	"github.com/VladRomanciuc/Go-classes/api/cache"
 )
 
-const (
-	Id int64 = 1
+var (
+	Id string = "123"
 	Title string = "Title 1"
 	Text string = "Text 1"
 )
+
 var (
 	dbo models.DbOps = dbapi.NewSQLiteDb()
 	postServ models.PostService = service.NewPostService(dbo)
-	postCont models.PostController = NewPostController(postServ)
+	postCach models.PostCache = cache.NewRedisCache("localhost:49154", "redispw", 0, 360)
+	postCont models.PostController = NewPostController(postServ, postCach)
 )
 
 func TestAddPost(t *testing.T){
@@ -59,11 +62,11 @@ func TestAddPost(t *testing.T){
 	deletePost(post.Id)
 }
 
-func deletePost(postID int64) {
+func deletePost(id string) {
 	var post models.Post = models.Post{
-		Id: postID,
+		Id: id,
 	}
-	dbo.Delete(&post)
+	dbo.DeleteById(post.Id)
 }
 
 func setup() {
@@ -106,10 +109,9 @@ func TestGetAll(t *testing.T){
 	json.NewDecoder(io.Reader(response.Body)).Decode(&posts)
 
 	//assert json
-	//assert.Equal(t, posts[0].Id)
+	assert.Equal(t, Id, posts[0].Id)
 	assert.Equal(t, Title, posts[0].Title)
 	assert.Equal(t, Text, posts[0].Text)
 
-	//delete
 	deletePost(Id)
 }

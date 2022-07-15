@@ -77,6 +77,7 @@ func (mongo *mongoDbColl) AddPost(post *models.Post) (*models.Post, error) {
 	//Handle the error
 	if err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
 	//return the post and error
 	return post, err
@@ -93,6 +94,7 @@ func (mongo *mongoDbColl) GetAll() ([]models.Post, error) {
 	result, err := coll.Find(c, bson.D{})
 	if err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
 	//Declare a slice of post type
 	var posts []models.Post = []models.Post{}
@@ -128,12 +130,13 @@ func (mongo *mongoDbColl) GetById(id string) (*models.Post, error) {
 	//Handle the error
 	if err != nil {
 		log.Fatal(err)
+		return nil, err
 	}
 	//return the post and error
 	return &post, nil
 }
 //Function to delete the post
-func (mongo *mongoDbColl) DeleteById(id string) (*models.Post, error) {
+func (mongo *mongoDbColl) DeleteById(id string) (error) {
 	//Get the context
 	c := context.Background()
 	// Get a new DynamoDB client
@@ -149,7 +152,8 @@ func (mongo *mongoDbColl) DeleteById(id string) (*models.Post, error) {
 	//Handle the error
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 	//return the post and error
-	return nil, nil
+	return nil
 }

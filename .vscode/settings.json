@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "posts",
+            "database": "${workspaceFolder:rest_api_server}/posts.db"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

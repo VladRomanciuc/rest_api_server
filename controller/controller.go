@@ -113,8 +113,8 @@ func (*controller) DeleteById(w http.ResponseWriter, r *http.Request) {
 	del := postCache.Del(Id)
 	if del == nil {
 		//if it is not found delete it from db
-		post, err := postService.DeleteById(Id)
-		if err != nil {
+		del := postService.DeleteById(Id)
+		if del != nil {
 			//handle the error and write header
 			w.WriteHeader(http.StatusNotFound)
 			json.NewEncoder(w).Encode(models.ServiceError{Message: "No posts found!"})
@@ -122,10 +122,8 @@ func (*controller) DeleteById(w http.ResponseWriter, r *http.Request) {
 		}
 		//if it is found in cache write the header with 200 code
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(post)
 	} else {
 		//if it is found in cache write the header with 200 code
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(del)
 	}
 }

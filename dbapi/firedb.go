@@ -119,17 +119,17 @@ func (*collection) GetById(id string) (*models.Post, error) {
 	return post, nil
 }
 //Delete posts by id function
-func(*collection) DeleteById(id string) (*models.Post, error) {
+func(*collection) DeleteById(id string) (error) {
 	//Get the context, start the client, close connection after operation
 	c := context.Background()
 	fireClient := firestoreClient()
 	defer fireClient.Close()
 	//Call the client with a named collection and id and delete the post, error handle
-	_, e := fireClient.Collection(collName).Doc(id).Delete(c)
-	if e != nil {
-		log.Fatalf(e.Error())
-		return nil, e
+	_, err := fireClient.Collection(collName).Doc(id).Delete(c)
+	if err != nil {
+		log.Fatalf(err.Error())
+		return err
 	}
 	//Return nil for both
-	return nil, nil
+	return nil
 }
